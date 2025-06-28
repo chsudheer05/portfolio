@@ -227,7 +227,8 @@ nav a:hover::after {
   transition: transform 0.3s ease-in-out;
 }
 
-.tech-icons img:hover {
+.tech-icons img:hover,
+.tech-icons img.in-view {
   transform: scale(1.2);
   filter: drop-shadow(0 0 8px var(--highlight));
 }
@@ -246,8 +247,11 @@ nav a:hover::after {
 
 .projects:hover,
 .about:hover,
-.contact:hover {
-  transform: translateY(-5px);
+.contact:hover,
+.projects.in-view,
+.about.in-view,
+.contact.in-view {
+  transform: translateY(-5px) scale(1.03);
   box-shadow: 0 0 35px rgba(0,255,255,0.2);
 }
 
@@ -285,7 +289,8 @@ nav a:hover::after {
   transition: transform 0.3s ease, border 0.3s ease;
 }
 
-.project-card:hover {
+.project-card:hover,
+.project-card.in-view {
   transform: scale(1.05);
   border: 2px solid var(--highlight);
   box-shadow: 0 0 28px rgba(0,255,255,0.3);
@@ -368,6 +373,7 @@ footer {
     height: 40px;
   }
 }
+
 
 </style>
 
@@ -489,3 +495,16 @@ footer {
   </script>
 </body>
 </html>
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  document.querySelectorAll('.projects, .about, .contact, .project-card, .tech-icons img').forEach(el => observer.observe(el));
+</script>
